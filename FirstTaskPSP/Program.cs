@@ -15,8 +15,13 @@ Character guerrero = new Character
 };
 
 guerrero.AddItem(hacha);
+hacha.Apply(guerrero);
 guerrero.AddItem(casco);
+casco.Apply(guerrero);
 guerrero.AddItem(escudo);
+escudo.Apply(guerrero);
+
+Console.WriteLine("---->" + guerrero.Name + " tiene ahora un daño base de " + guerrero.BaseDamage + " y una armadura base de " + guerrero.BaseArmor + ".\n");
 
 Character mago = new Character
 {
@@ -27,14 +32,22 @@ Character mago = new Character
 };
 
 mago.AddItem(espada);
+espada.Apply(mago);
 mago.AddItem(casco);
-mago.AddItem(hacha);
-mago.RemoveItem(hacha);
+casco.Apply(mago);
 
-mago.CurrentHitPoints = guerrero.Attack(mago.MaxHitPoints, guerrero.BaseDamage);
+Console.WriteLine("---->" + mago.Name + " tiene ahora un daño base de " + mago.BaseDamage + " y una armadura base de " + mago.BaseArmor + ".\n");
+
+Console.WriteLine("AHORA VIENE EL PVP");
+Console.WriteLine("-------------------");
+int dañoInfligido = guerrero.Attack(mago);
+mago.ReceiveDamage(dañoInfligido);
+
 Console.WriteLine("El guerrero " + guerrero.Name + " ha atacado a " + mago.Name + ".");
-Console.WriteLine(mago.CurrentHitPoints + " hp.");
-int hpHealed = mago.Heal(20);
-Console.WriteLine("El mago " + mago.Name + " se ha curado " + hpHealed + ".");
-Console.WriteLine("La hp actual de " + mago.Name + " es " + mago.CurrentHitPoints + ".");
+Console.WriteLine(mago.Name + " ahora tiene " + mago.CurrentHitPoints + " puntos de vida.");
+
+int puntosCurados = mago.Heal(20);
+
+Console.WriteLine(mago.Name + " se ha curado " + puntosCurados + " puntos de vida.");
+Console.WriteLine("La vida actual de " + mago.Name + " es " + mago.CurrentHitPoints + ".");
 

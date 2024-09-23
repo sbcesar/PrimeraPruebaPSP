@@ -17,39 +17,77 @@ public class Character
     public void AddItem(IItem item)
     {
         Inventory.Add(item);
-        Console.WriteLine("Se ha añadido " + item);
+        Console.WriteLine("Se ha añadido " + item.Name + ".");
     }
 
     public void RemoveItem(IItem item)
     {
         Inventory.Remove(item);
-        Console.WriteLine("Se ha eliminado " + item);
+        Console.WriteLine("Se ha eliminado " + item.Name + ".");
     }
 
-    public int Attack(int hp, int damage)
+    public int Attack(Character target)
     {
-        return hp - damage;
+        int totalDamage = BaseDamage;
+        
+        foreach (var item in Inventory)
+        {
+            var weapon = item as Weapon;
+            if (weapon != null)
+            {
+                totalDamage += weapon.Damage;
+            }
+        }
+        
+        int weaponDamageAdded = totalDamage - target.Defense();
+        if (weaponDamageAdded < 0) weaponDamageAdded = 0;
+
+        return weaponDamageAdded;
     }
 
     public int Defense()
     {
-        return BaseArmor;
+        int totalArmor = BaseArmor;
+
+        foreach (var item in Inventory)
+        {
+            var protection = item as Protection;
+            if (protection != null)
+            {
+                totalArmor += protection.Armor;
+            }
+        }
+        
+        return totalArmor;
     }
 
     public int Heal(int hp)
     {
-        int hpHealed = MaxHitPoints - (CurrentHitPoints + hp);
-        CurrentHitPoints = hp;
-        if (CurrentHitPoints >= MaxHitPoints)
+        int hpHealed = hp;
+        CurrentHitPoints += hp;
+        
+        if (CurrentHitPoints > MaxHitPoints)
         {
+            hpHealed -= (CurrentHitPoints - MaxHitPoints);
             CurrentHitPoints = MaxHitPoints;
         }
 
         return hpHealed;
     }
 
-    public void ReceiveDamage(int totalDamage)
+    public void ReceiveDamage(int damage)
     {
+        int totalDamage = damage - Defense();
+
+        if (totalDamage < 0)
+        {
+            totalDamage = 0;
+        }
+        
         CurrentHitPoints -= totalDamage;
+        if (CurrentHitPoints < 0)
+        {
+            CurrentHitPoints = 0;
+        }
     }
 }
