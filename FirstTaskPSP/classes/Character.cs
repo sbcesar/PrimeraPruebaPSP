@@ -11,20 +11,24 @@ public class Character
     public int BaseArmor { get; set; }
     
     private List<IItem> _inventory = new List<IItem>();
+    
+    public List<IItem> Inventory { get => _inventory; set => _inventory = value; }
 
     public void AddItem(IItem item)
     {
-        _inventory.Add(item);
+        Inventory.Add(item);
+        Console.WriteLine("Se ha añadido " + item);
     }
 
     public void RemoveItem(IItem item)
     {
-        _inventory.Remove(item);
+        Inventory.Remove(item);
+        Console.WriteLine("Se ha eliminado " + item);
     }
 
-    public int Attack()
+    public int Attack(int hp, int damage)
     {
-        return BaseDamage;
+        return hp - damage;
     }
 
     public int Defense()
@@ -32,13 +36,16 @@ public class Character
         return BaseArmor;
     }
 
-    public void Heal(int hp)
+    public int Heal(int hp)
     {
-        CurrentHitPoints += hp;
+        int hpHealed = MaxHitPoints - (CurrentHitPoints + hp);
+        CurrentHitPoints = hp;
         if (CurrentHitPoints >= MaxHitPoints)
         {
             CurrentHitPoints = MaxHitPoints;
         }
+
+        return hpHealed;
     }
 
     public void ReceiveDamage(int totalDamage)
