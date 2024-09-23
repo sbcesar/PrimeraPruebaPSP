@@ -4,14 +4,23 @@ namespace FirstTaskPSP.classes;
 
 public class Character
 {
-    string name;
-    int MaxHitPoints;
-    int CurrentHitPoints;
-    int BaseDamage;
-    int BaseArmor;
-    private List<IItem> _inventory;
+    public string Name { get; set; }
+    public int MaxHitPoints { get; set; }
+    public int CurrentHitPoints { get; set; }
+    public int BaseDamage { get; set; }
+    public int BaseArmor { get; set; }
     
-    
+    private List<IItem> _inventory = new List<IItem>();
+
+    public void AddItem(IItem item)
+    {
+        _inventory.Add(item);
+    }
+
+    public void RemoveItem(IItem item)
+    {
+        _inventory.Remove(item);
+    }
 
     public int Attack()
     {
@@ -32,8 +41,8 @@ public class Character
         }
     }
 
-    public void ReceiveDamage(int damage)
+    public void ReceiveDamage(int totalDamage)
     {
-        CurrentHitPoints -= damage;
+        CurrentHitPoints -= totalDamage;
     }
 }

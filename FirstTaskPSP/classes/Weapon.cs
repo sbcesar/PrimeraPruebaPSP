@@ -1,6 +1,11 @@
+using FirstTaskPSP.interfaces;
+
 namespace FirstTaskPSP.classes;
 
-public class Weapon
+public abstract class Weapon : IItem
 {
+    public string Name { get; set; }
+    public int Damage { get; set; }
     
+    public abstract void Apply(Character character);
 }
