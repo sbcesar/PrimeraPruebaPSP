@@ -1,9 +1,11 @@
 ﻿using FirstTaskPSP.classes;
+using FirstTaskPSP.classes.Pets;
 
 Axe hacha = new Axe { Name = "Gran hacha de Caballero Negro", Damage = 20 };
 Sword espada = new Sword { Name = "Uchigatana", Damage = 16 };
 Helmet casco = new Helmet { Name = "Yelmo de Gundyr", Armor = 8 };
 Shield escudo = new Shield { Name = "Gran escudo de Havel", Armor = 12 };
+Pet mascota = new Pet { Name = "Chip", Hp = 30 };
 
 Character guerrero = new Character
 {
@@ -21,7 +23,7 @@ casco.Apply(guerrero);
 guerrero.AddItem(escudo);
 escudo.Apply(guerrero);
 
-Console.WriteLine("---->" + guerrero.Name + " tiene ahora un daño base de " + guerrero.BaseDamage + " y una armadura base de " + guerrero.BaseArmor + ".\n");
+Console.WriteLine("----> " + guerrero.Name + " tiene ahora un daño base de " + guerrero.BaseDamage + " y una armadura base de " + guerrero.BaseArmor + ".\n");
 
 Character mago = new Character
 {
@@ -35,13 +37,16 @@ mago.AddItem(espada);
 espada.Apply(mago);
 mago.AddItem(casco);
 casco.Apply(mago);
+mago.AddItem(mascota);
+mascota.Apply(mago);
 
-Console.WriteLine("---->" + mago.Name + " tiene ahora un daño base de " + mago.BaseDamage + " y una armadura base de " + mago.BaseArmor + ".\n");
+Console.WriteLine("----> " + mago.Name + " tiene una vida de " + mago.MaxHitPoints + " un daño base de " + mago.BaseDamage + " y una armadura base de " + mago.BaseArmor + ".\n");
 
 Console.WriteLine("AHORA VIENE EL PVP");
 Console.WriteLine("-------------------");
-int dañoInfligido = guerrero.Attack(mago);
-mago.ReceiveDamage(dañoInfligido);
+
+int damageInflicted = guerrero.Attack(mago);
+mago.ReceiveDamage(damageInflicted);
 
 Console.WriteLine("El guerrero " + guerrero.Name + " ha atacado a " + mago.Name + ".");
 Console.WriteLine(mago.Name + " ahora tiene " + mago.CurrentHitPoints + " puntos de vida.");
